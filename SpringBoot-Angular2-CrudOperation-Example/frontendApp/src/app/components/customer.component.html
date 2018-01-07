@@ -1,0 +1,121 @@
+<div *ngIf="isEdit">
+<h1>  Hello {{cust.name}}</h1>
+<p><strong>Email: </strong>{{cust.email}}</p>
+<!--<p><strong>Address:</strong>{{address.street}}  {{address.city}}  {{address.state}}</p> -->
+</div>
+<div *ngIf="!isEdit">
+  <h1>Customer's Information</h1>
+  </div>
+<hr/>
+<div *ngIf="!isEdit"><h3>Add Customer's Information:</h3></div>
+<div *ngIf="isEdit"><h3>Edit Customer Information:</h3></div>
+<div class="container">
+<form #myForm="ngForm">
+<div class="form-group">
+<label>Customer Name:</label><br/>
+<input type="text" class="form-control" style="width:200px" id ="name"  placeholder="Enter Customer Name"
+     name="name"
+     #name="ngModel" [(ngModel)]="cust.name" required minlength="4" 
+     maxlength="15" >
+  <div *ngIf="name.invalid && (name.dirty || name.touched)"
+      class="alert alert-danger">
+      <div *ngIf="name.errors.required">
+        Name is required.
+      </div>
+      <div *ngIf="name.errors.minlength">
+         Name must be at least 4 characters long.
+      </div>
+  </div>
+</div>
+<div class="form-group">
+  <label>Products:</label><br/>
+  <input type="text" name="products" style="width:200px" placeholder="Enter products"
+  #products="ngModel" id ="products" [(ngModel)]="cust.products" required minlength="4" 
+  maxlength="15">
+  <div *ngIf="products.invalid && (products.dirty || products.touched)"
+      class="alert alert-danger">
+    <div *ngIf="products.errors.required">
+      Products is required.
+    </div>
+        <div *ngIf="products.errors.minlength">
+           Products must be at least 4 characters long.
+        </div>        
+    </div>
+</div>
+<div class="form-group">
+<label>payment:</label><br/>
+<input type="text" name="cust.payment" [(ngModel)]="cust.payment" style="width:200px" />
+</div>
+
+<div class="form-group">
+<label>PointSale:</label><br/>
+<input type="text" name="cust.pointSale" [(ngModel)]="cust.pointSale" style="width:200px" />
+</div>
+
+<div class="form-group">
+<label>Order:</label><br/>
+<input type="text" name="cust.order" [(ngModel)]="cust.order" style="width:200px" />
+</div>
+
+<div class="form-group">
+  <label for="name">Email:</label>
+    <input type="text" class="form-control" id="emailaddress" style="width:200px"
+       required [(ngModel)]="cust.email" name="email" placeholder="Enter email"
+        pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" 
+       #email="ngModel"><br/>
+      <div [hidden]="email.valid || email.pristine"
+         class="alert alert-danger">
+         <div [hidden]="!email.hasError('required')">Email is required</div>
+         <div [hidden]="!email.hasError('pattern')">Email format should be 
+            <small><b>suj@abc.com</b></small>
+         </div>
+      </div>
+</div>
+<div *ngIf="!isEdit" >
+<button class="btn btn-default"
+[disabled]="myForm.invalid" (click) ="addCustomer()">Save</button>
+</div>
+<div *ngIf="isEdit">
+<button (click) ="updateCustomer()" >Update</button>
+</div>
+<hr/>
+<div *ngIf="cust1?.length >0">
+<h3> Customer Information</h3>
+
+
+<table class="table table-striped">
+  <thead>
+      <th style="width: 15%">Name</th>
+      <th style="width: 20%">Email</th>
+      <th style="width: 15%">products</th>
+      <th style="width: 15%">payment</th>
+      <th style="width: 15%">pointSale</th>
+      <th style="width: 15%">order</th>
+      <th style="width: 5%">Delete</th>
+      <th style="width: 10%">Edit</th>
+  </thead>
+  <tbody>
+      <tr *ngFor="let cu of cust1 ; let i = index">
+          <td>{{cu.name}}</td>
+          <td>{{cu.email}}</td>
+          <td>{{cu.products}}</td>
+          <td>{{cu.payment}}</td>
+          <td>{{cu.pointSale}}</td>
+          <td>{{cu.order}}</td>
+          <td><a (click)="deleteCustomer(cu)" >X</a></td>
+           <td><a (click)="editCustomer(cu)" >Edit</a></td>          
+      </tr>
+  </tbody>
+</table>
+
+</div>
+
+ </form>
+
+ </div>
+<hr/>
+<hr/>
+ <!-- <p><strong>Example Of Sample Data Provided by 
+  <a routerLink="/userInfo">Spring Rest API(GET) .</a></strong></p>  -->
+
+
